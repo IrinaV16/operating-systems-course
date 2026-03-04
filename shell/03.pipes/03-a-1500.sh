@@ -1,0 +1,8 @@
+# Изведете броя на байтовете в /etc/passwd.
+cat /etc/passwd | wc -c
+
+# Изведете броя на символите в /etc/passwd.
+cat /etc/passwd | wc -m
+
+# Изведете броя на редовете  в /etc/passwd.
+cat /etc/passwd | wc -l
