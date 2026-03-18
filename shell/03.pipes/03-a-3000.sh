@@ -2,4 +2,4 @@
 df -P > ~/newfile.txt
 
 # Напишете команда, която извежда на екрана съдържанието на този файл, без първия ред (хедъра), сортирано по второ поле (numeric).
-cat newfile.txt | tail -n +2 | sort -n -k2 -t ' '
+cat newfile.txt | tail -n +2 | sort -n -k2 
