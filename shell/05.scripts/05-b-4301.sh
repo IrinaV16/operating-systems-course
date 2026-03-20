@@ -11,3 +11,27 @@ uncleBen <username на Ben Dover в os-server>
 
 ***Бонус: Ако има няколко съвпадения за въведеното име (напр. има 10 човека Ivan Petrov в /etc/passwd), всички те да се показват на потребителя, заедно с пореден номер >=1,
 след което той да може да въведе някой от номерата (или 0 ако не си хареса никого), и само избраният да бъде добавен към указателя.
+
+#!/bin/bash
+
+if [ "$#" -ne 3 ]; then
+    echo "Usage: $0 <address_book> \"Full Name\" <nickname>"
+    exit 1
+fi
+
+file="$1"
+fullname="$2"
+nickname="$3"
+
+# Търсим username по fullname (между : и ,)
+username=$(grep ":$fullname," /etc/passwd | cut -d: -f1)
+
+# Проверка дали е намерен
+if [ -z "$username" ]; then
+    echo "User with name '$fullname' not found"
+    exit 1
+fi
+
+echo "$nickname $username" >> "$file"
+
+echo "Added: $nickname $username"
