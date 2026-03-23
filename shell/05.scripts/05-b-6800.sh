@@ -16,7 +16,7 @@ scripts (10 entries)
 
 #!/bin/bash
 
-if [ "$#" -ne 1 ] ; then
+if [[ "$#" -ne 1 ]] ; then
     echo "Enter one directory"
     exit
 fi
@@ -28,17 +28,21 @@ if [[ ! -d "$dir" ]] ; then
     exit 2
 fi
 
-finds= $(find "$dir" -maxdepth 1 -type fd)
+finds=$(find "$dir" -maxdepth 1 ! -name ".*")
 
-for find in "$finds"; do
-    if [[ -f "$find" ]] ; then 
+for find in $finds; do
+    if [[ "$find" == "$dir" ]]; then
+        continue
+    elif [[ -f "$find" ]] ; then 
         bytes=$(cat "$find" | wc -c)
-        echo "$find ($bytes)"
+        echo "$(basename "$find") ($bytes)"
     elif [[ -d "$find" ]] ; then
-        count=$(find "$find" -maxdepth 1 -type fd | wc -l)
+        count=$(find "$find" -mindepth 1 -maxdepth 1 ! -name ".*"| wc -l)
 
         if [[ "$count" -eq 1 ]] ; then
-            echo "$find ($count entry)"
+            echo "$(basename "$find") ($count entry)"
         else
-            echo "$find ($count entries)"    
+            echo "$(basename "$find") ($count entries)"    
         fi
+    fi
+done
